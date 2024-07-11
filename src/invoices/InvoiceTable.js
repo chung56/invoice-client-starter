@@ -2,13 +2,20 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSession } from '../contexts/session'
 
-const InvoiceTable = ({ label, items, deleteInvoice }) => {
+const InvoiceTable = ({
+  label,
+  items,
+  deleteInvoice,
+  totalInvoices,
+  currentPage,
+  itemsPerPage,
+}) => {
   const { session } = useSession()
   const isAdmin = session.data?.isAdmin === true
   return (
     <div>
       <p>
-        {label} {items.length}
+        {label} {totalInvoices}
       </p>
 
       <table className='table table-bordered'>
@@ -26,7 +33,7 @@ const InvoiceTable = ({ label, items, deleteInvoice }) => {
         <tbody>
           {items.map((item, index) => (
             <tr key={index + 1}>
-              <td>{index + 1}</td>
+              <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
               <td>{item.invoiceNumber}</td>
               <td>{item.buyer.name}</td>
               <td>{item.seller.name}</td>

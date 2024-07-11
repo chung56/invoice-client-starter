@@ -56,6 +56,7 @@ const InvoiceIndex = () => {
 
     const data = await apiGet('/api/invoices', params)
     setInvoices(data)
+    setCurrentPage(1)
   }
 
   const handleReset = async (e) => {
@@ -71,6 +72,7 @@ const InvoiceIndex = () => {
     })
     const data = await apiGet('/api/invoices')
     setInvoices(data)
+    setCurrentPage(1)
   }
 
   const paginate = (invoices) => {
@@ -97,6 +99,10 @@ const InvoiceIndex = () => {
         items={paginate(invoices)}
         label='Počet faktur:'
         deleteInvoice={deleteInvoice}
+        totalInvoices={invoices.length}
+        invoiceNumber={invoices.length}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
       />
       {invoices.length > itemsPerPage && (
         <div>
