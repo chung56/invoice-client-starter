@@ -14,6 +14,8 @@ const InvoiceIndex = () => {
     product: undefined,
     limit: undefined,
   })
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
 
   useEffect(() => {
     apiGet('/api/invoices').then((data) => setInvoices(data))
@@ -71,6 +73,12 @@ const InvoiceIndex = () => {
     setInvoices(data)
   }
 
+  const paginate = (invoices) => {
+    const startIndex = (currentPage - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return invoices.slice(startIndex, endIndex)
+  }
+
   return (
     <div>
       <h1>Seznam Faktur</h1>
@@ -86,10 +94,29 @@ const InvoiceIndex = () => {
       />
       <hr />
       <InvoiceTable
-        items={invoices}
+        items={paginate(invoices)}
         label='Počet faktur:'
         deleteInvoice={deleteInvoice}
       />
+      {invoices.length > itemsPerPage && (
+        <div>
+          {[...Array(Math.ceil(invoices.length / itemsPerPage))].map(
+            (_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                className={`btn border-0 mt-3 ${
+                  currentPage === index + 1
+                    ? 'bg-primary text-white'
+                    : 'bg-light text-dark'
+                }`}
+              >
+                {index + 1}
+              </button>
+            )
+          )}
+        </div>
+      )}
     </div>
   )
 }
