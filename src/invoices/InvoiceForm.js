@@ -44,6 +44,12 @@ const InvoiceForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    if (invoice.issued > invoice.dueDate) {
+      setError(
+        'Datum vystaveni faktury nemůže být větší než datum splatnosti faktury.'
+      )
+      return
+    }
     ;(id
       ? apiPut('/api/invoices/' + id, invoice)
       : apiPost('/api/invoices', invoice)
@@ -51,7 +57,9 @@ const InvoiceForm = () => {
       .then((data) => {
         setSent(true)
         setSuccess(true)
-        navigate('/invoices')
+        setTimeout(() => {
+          navigate('/invoices')
+        }, 1000)
       })
       .catch((error) => {
         console.log(error.message)
