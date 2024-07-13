@@ -16,6 +16,7 @@ const PersonTable = ({ label, items, deletePerson }) => {
         <thead>
           <tr>
             <th>#</th>
+            <th>ID</th>
             <th>Jméno</th>
             <th colSpan={3}>Akce</th>
           </tr>
@@ -24,6 +25,7 @@ const PersonTable = ({ label, items, deletePerson }) => {
           {items.map((item, index) => (
             <tr key={index + 1}>
               <td>{index + 1}</td>
+              <td>{item._id}</td>
               <td>{item.name}</td>
               <td>
                 <div className='btn-group'>
