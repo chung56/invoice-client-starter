@@ -104,7 +104,6 @@ const InvoiceFilter = (props) => {
             Reset
           </button>
         </div>
-        <div></div>
       </div>
     </form>
   )
